@@ -28,7 +28,7 @@ const Country = () => {
     setSearch(event.target.value);
   };
 
-  //let cd = ["navya", "bhatia", "ankit", "kumar"];
+  //let cd = ["navya", "bhatia", "anjali", "sara"];
 
   return (
     <Container fluid>
