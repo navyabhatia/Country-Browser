@@ -1,23 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { MenuItem, Select } from "@mui/material";
+import { Container, Row, Col, ListGroup, ListGroupItem } from "react-bootstrap";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 
 import FormControl from "@mui/material/FormControl";
 
 const Country = () => {
-  const [country, setCountry] = useState("");
-  const [duration, setDuration] = useState("");
+  const [countries, setCountries] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get(
+        "https://countriesnow.space/api/v0.1/countries/info?returns=currency,flag,unicodeFlag,dialCode"
+      );
 
-  const handleChangeCountry = (event) => {
-    setCountry(event.target.value);
-  };
-  const handleChangeDuration = (event) => {
-    setDuration(event.target.value);
-  };
+      setCountries(response.data.data);
+    };
+
+    fetchData();
+  }, [countries]);
 
   return (
-    <div>
+    <Container fluid>
       <Box
         sx={{
           marginLeft: 15,
@@ -31,14 +36,10 @@ const Country = () => {
       >
         <FormControl sx={{ flexGrow: 1 }}>
           <InputLabel id="label">Country</InputLabel>
-          <Select
-            value={country}
-            label="Country"
-            onChange={handleChangeCountry}
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+          <Select label="Country">
+            {countries.map((country) => (
+              <MenuItem value={country.name}> {country.name}</MenuItem>
+            ))}
           </Select>
         </FormControl>
       </Box>
@@ -58,31 +59,15 @@ const Country = () => {
       >
         <FormControl sx={{ flexGrow: 1 }}>
           <InputLabel id="label2">Duration</InputLabel>
-          <Select
-            value={duration}
-            label="Duration"
-            onChange={handleChangeDuration}
-          >
+          <Select label="Duration">
             <MenuItem value={1}>one</MenuItem>
             <MenuItem value={2}>Two</MenuItem>
             <MenuItem value={3}>Thee</MenuItem>
           </Select>
         </FormControl>
       </Box>
-      <br></br>
-      <p>
-        you selected this country {country} with duration {duration}
-      </p>
-    </div>
+    </Container>
   );
 };
 
 export default Country;
-/*
-      <Select label="Country">
-        <MenuItem>America</MenuItem>
-        <MenuItem>moscow</MenuItem>
-        <MenuItem>hdhdh</MenuItem>
-      </Select>
-
-*/
