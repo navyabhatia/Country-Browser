@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col, ListGroup, ListGroupItem } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 
 const Details = (detail) => {
   return (

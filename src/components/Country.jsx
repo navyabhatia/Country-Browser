@@ -29,11 +29,35 @@ const Country = () => {
   };
 
   //let cd = ["navya", "bhatia", "anjali", "sara"];
+  // console.log({ search });
+  // console.log({ countries });
+  const handleDetails = async (country) => {
+    const res = await axios.get(
+      `https://countriesnow.space/api/v0.1/countries/population?country=${country}`
+    );
+    console.log(res.data.data);
+    setDetails(
+      <Container>
+        <h1>Welcome to {country.name}</h1>
+
+        <h3>{country.currency}</h3>
+
+        <h4> {country.unicodeFlag} </h4>
+
+        <img
+          src={country.flag}
+          height="auto"
+          width="320px"
+          alt="country flag"
+        />
+      </Container>
+    );
+  };
 
   return (
     <Container fluid>
       <div className="row">
-        <div classNmae="column">
+        <div className="column">
           <Box
             sx={{
               marginLeft: 15,
@@ -49,8 +73,10 @@ const Country = () => {
               <InputLabel id="label">Country</InputLabel>
               <Select label="Country" onChange={handleSearch} value={search}>
                 {countries.map((country, index) => (
-                  <MenuItem value={index} onClick={() => setDetails(country)}>
-                    {" "}
+                  <MenuItem
+                    value={country.name}
+                    onClick={() => handleDetails(country)}
+                  >
                     {country.name}
                   </MenuItem>
                 ))}
@@ -85,34 +111,9 @@ const Country = () => {
         </div>
       </div>
 
-      <div>
-        {details.length === 0 ? (
-          <h1>Select Country and Duration</h1>
-        ) : (
-          <Container>
-            <h1>Welcome to {details.name}</h1>
-
-            <h3>{details.currency}</h3>
-
-            <h4> {details.unicodeFlag} </h4>
-
-            <img
-              src={details.flag}
-              height="auto"
-              width="320px"
-              alt="country flag"
-            />
-          </Container>
-        )}
-      </div>
+      <div>{details}</div>
     </Container>
   );
 };
 
 export default Country;
-/*
- 
-            {console.log(search)}
-            <p> {search && cd[search]} </p>
-
-*/
