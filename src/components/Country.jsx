@@ -31,25 +31,46 @@ const Country = () => {
   //let cd = ["navya", "bhatia", "anjali", "sara"];
   // console.log({ search });
   // console.log({ countries });
-  const handleDetails = async (country) => {
+  const handleDetails = async (selectcountry) => {
+    let allpopulationValue = [];
+    let allyears = [];
+    let tenPopulationValue = []; // filter it for last 10 years
+    let tenYears = [];
     const res = await axios.get(
-      `https://countriesnow.space/api/v0.1/countries/population?country=${country}`
+      `https://countriesnow.space/api/v0.1/countries/population?query=${selectcountry}`
     );
-    console.log(res.data.data);
+
+    const weather = res.data.data;
+    console.log(weather);
+    const result = weather.find(
+      ({ country }) => country === selectcountry.name
+    );
+    console.log(result);
+    console.log(result.country);
+    console.log(result.code);
+    for (const dataObj of result.populationCounts) {
+      allpopulationValue.push(dataObj.value);
+      allyears.push(dataObj.year);
+    } //this for loop for storing year and value data seperately for creating graph
+    console.log(allpopulationValue);
+    console.log(allyears);
+
     setDetails(
       <Container>
-        <h1>Welcome to {country.name}</h1>
+        <h1>Welcome to {selectcountry.name}</h1>
 
-        <h3>{country.currency}</h3>
+        <h3>{selectcountry.currency}</h3>
 
-        <h4> {country.unicodeFlag} </h4>
+        <h4> {selectcountry.unicodeFlag} </h4>
 
         <img
-          src={country.flag}
+          src={selectcountry.flag}
           height="auto"
           width="320px"
           alt="country flag"
         />
+        <h4> acessing from population api {result.country}</h4>
+        <h4> acessing from population api {result.code}</h4>
       </Container>
     );
   };
@@ -72,12 +93,14 @@ const Country = () => {
             <FormControl sx={{ flexGrow: 1 }}>
               <InputLabel id="label">Country</InputLabel>
               <Select label="Country" onChange={handleSearch} value={search}>
-                {countries.map((country, index) => (
+                {countries.map((selectcountry, index) => (
                   <MenuItem
-                    value={country.name}
-                    onClick={() => handleDetails(country)}
+                    key={index}
+                    idx={index}
+                    value={selectcountry.name}
+                    onClick={() => handleDetails(selectcountry)}
                   >
-                    {country.name}
+                    {selectcountry.name}
                   </MenuItem>
                 ))}
               </Select>
@@ -117,3 +140,12 @@ const Country = () => {
 };
 
 export default Country;
+/*
+
+    weather
+      .find((country) => country === "Bulgaria")
+      .map((x) => (
+        <li>{x.country}</li>
+      ))
+
+*/
