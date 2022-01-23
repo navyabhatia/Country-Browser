@@ -31,10 +31,10 @@ const Country = () => {
     setSearch(event.target.value);
   };
   const handleDuration = (event) => {
-    console.log(event.target.value);
-    console.log({ search });
-    console.log({ allpopulation });
-    console.log({ allyear });
+    console.log(event.target.value); //selecetd by user dropdown
+    console.log({ search }); //search in country
+    console.log({ allpopulation }); //population count of data stored
+    console.log({ allyear }); //year data stored
   };
 
   //let cd = ["navya", "bhatia", "anjali", "sara"];
