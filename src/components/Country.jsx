@@ -11,6 +11,9 @@ const Country = () => {
   const [countries, setCountries] = useState([]);
   const [search, setSearch] = useState("");
   const [details, setDetails] = useState([]);
+  const [duration, setDuration] = useState();
+  const [allpopulation, setAllPopulation] = useState();
+  const [allyear, setAllyear] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,6 +29,12 @@ const Country = () => {
 
   const handleSearch = (event) => {
     setSearch(event.target.value);
+  };
+  const handleDuration = (event) => {
+    console.log(event.target.value);
+    console.log({ search });
+    console.log({ allpopulation });
+    console.log({ allyear });
   };
 
   //let cd = ["navya", "bhatia", "anjali", "sara"];
@@ -54,7 +63,8 @@ const Country = () => {
     } //this for loop for storing year and value data seperately for creating graph
     console.log(allpopulationValue);
     console.log(allyears);
-
+    setAllPopulation(allpopulationValue);
+    setAllyear(allyears);
     setDetails(
       <Container>
         <h1>Welcome to {selectcountry.name}</h1>
@@ -124,10 +134,9 @@ const Country = () => {
           >
             <FormControl sx={{ flexGrow: 1 }}>
               <InputLabel id="label2">Duration</InputLabel>
-              <Select label="Duration">
-                <MenuItem value={1}>one</MenuItem>
-                <MenuItem value={2}>Two</MenuItem>
-                <MenuItem value={3}>Thee</MenuItem>
+              <Select label="Duration" onChange={handleDuration}>
+                <MenuItem value={1}>Last 10 years Data</MenuItem>
+                <MenuItem value={2}>All years Data</MenuItem>
               </Select>
             </FormControl>
           </Box>
