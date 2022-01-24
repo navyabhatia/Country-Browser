@@ -11,6 +11,8 @@ function App() {
       <Container fluid="true">
         <header className="App-header">
           <h1>WELCOME</h1>
+          <br />
+          <br />
           <Country />
         </header>
       </Container>

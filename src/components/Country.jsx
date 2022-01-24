@@ -4,7 +4,8 @@ import { MenuItem, Select } from "@mui/material";
 import { Container } from "react-bootstrap";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
-
+import { Spinner } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import FormControl from "@mui/material/FormControl";
 import "@progress/kendo-theme-material/dist/all.css";
 import "hammerjs";
@@ -44,13 +45,13 @@ const Country = () => {
     setSearch(event.target.value);
   };
   const handleDuration = (event) => {
-    console.log(event.target.value); //selecetd by user dropdown
+    //  console.log(event.target.value); //selecetd by user dropdown
     let clicked = event.target.value; //has index
-    console.log({ search }); //search in country
-    console.log({ allpopulation }); //all population count of data stored
-    console.log({ allyear }); //all year data stored
-    console.log({ lastTenPopulation }); //last 10 year population
-    console.log({ lastTenyear }); //last 10 year
+    //  console.log({ search }); //search in country
+    // console.log({ allpopulation }); //all population count of data stored
+    // console.log({ allyear }); //all year data stored
+    // console.log({ lastTenPopulation }); //last 10 year population
+    // console.log({ lastTenyear }); //last 10 year
     setDuration(
       <div className="container">
         <h1 className="h">Population Graph</h1>
@@ -92,19 +93,19 @@ const Country = () => {
     if (res.data.data) setloader(false);
 
     const weather = res.data.data;
-    console.log(weather);
+    // console.log(weather);
     const result = weather.find(
       ({ country }) => country === selectcountry.name
     );
-    console.log(result);
-    console.log(result.country);
-    console.log(result.code);
+    // console.log(result);
+    // console.log(result.country);
+    // console.log(result.code);
     for (const dataObj of result.populationCounts) {
       allpopulationValue.push(dataObj.value);
       allyears.push(dataObj.year);
     } //this for loop for storing year and value data seperately for creating graph
-    console.log(allpopulationValue);
-    console.log(allyears);
+    // console.log(allpopulationValue);
+    // console.log(allyears);
     tenPopulationValue = allpopulationValue.slice(-10); //filtering out last 10 year data from all
     tenYears = allyears.slice(-10);
     setLastTenyear(tenYears);
@@ -113,19 +114,34 @@ const Country = () => {
     setAllyear(allyears);
 
     setDetails(
-      <Container>
+      <Container align="center">
         <h1>{selectcountry.name}</h1>
+        <div class="row ">
+          <div class="col md-3 justify-content-end">
+            <br></br>
+            <br></br>
+            <h3 style={{ alignItem: "center", textAlign: "right" }}>
+              {selectcountry.currency}
+            </h3>
+            <br></br>
+            <h3 style={{ alignItem: "center", textAlign: "right" }}>
+              {selectcountry.unicodeFlag}
+            </h3>
+          </div>
+          <div class="col align-left">
+            <img
+              align="left"
+              top="-200px"
+              src={selectcountry.flag}
+              alignItems="left"
+              height="250px"
+              width="250px"
+              alt="country flag"
+              float="left"
+            />
+          </div>
+        </div>
 
-        <h3>{selectcountry.currency}</h3>
-
-        <h4> {selectcountry.unicodeFlag} </h4>
-
-        <img
-          src={selectcountry.flag}
-          height="auto"
-          width="320px"
-          alt="country flag"
-        />
         {/* <h4> acessing from population api {result.country}</h4>
         <h4> acessing from population api {result.code}</h4>
         */}
@@ -140,7 +156,6 @@ const Country = () => {
           <Box
             sx={{
               marginLeft: 42,
-
               width: 200,
               display: "flex",
               flexDirection: "row",
@@ -172,7 +187,8 @@ const Country = () => {
         <div className="column">
           <Box
             sx={{
-              marginLeft: 80, //box margin fro left
+              marginLeft: 72, //box margin fro left
+              marginTop: -7,
               width: 200, //box width hai yeh
               display: "flex",
               flexDirection: "row-reverse",
@@ -190,7 +206,7 @@ const Country = () => {
           </Box>
         </div>
       </div>
-      {loader && <h1>loading..</h1>}
+      {loader && <Spinner animation="border" role="status" />}
 
       {!loader && <div>{details}</div>}
       <div>{duration}</div>
