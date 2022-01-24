@@ -1,5 +1,5 @@
 # Country-Browser
-
+This is the simple ReactJs Project which helps you to browse countries. Stay Tuned for more updates !
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
