@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { MenuItem, Select } from "@mui/material";
-import { Container, Row, Col, ListGroup, ListGroupItem } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
-import Details from "./Details";
+
 import FormControl from "@mui/material/FormControl";
+import "@progress/kendo-theme-material/dist/all.css";
+import "hammerjs";
+import "./Country.css";
+import Line from "./charts/Line";
 
 const Country = () => {
   const [countries, setCountries] = useState([]);
@@ -14,6 +18,9 @@ const Country = () => {
   const [duration, setDuration] = useState();
   const [allpopulation, setAllPopulation] = useState();
   const [allyear, setAllyear] = useState();
+  const [lastTenyear, setLastTenyear] = useState();
+  const [lastTenPopulation, setLastTenPopulation] = useState();
+  const [loader, setloader] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,33 +28,68 @@ const Country = () => {
         "https://countriesnow.space/api/v0.1/countries/info?returns=currency,flag,unicodeFlag,dialCode"
       );
 
+      /*
+      countries.length !== 0
+        ? setCountries(countries)
+        : setCountries(response.data.data);
+      console.log("hi");*/
+      //console.log(response.data.data);
       setCountries(response.data.data);
     };
 
     fetchData();
-  }, [countries]);
+  }, []);
 
   const handleSearch = (event) => {
     setSearch(event.target.value);
   };
   const handleDuration = (event) => {
     console.log(event.target.value); //selecetd by user dropdown
+    let clicked = event.target.value; //has index
     console.log({ search }); //search in country
-    console.log({ allpopulation }); //population count of data stored
-    console.log({ allyear }); //year data stored
+    console.log({ allpopulation }); //all population count of data stored
+    console.log({ allyear }); //all year data stored
+    console.log({ lastTenPopulation }); //last 10 year population
+    console.log({ lastTenyear }); //last 10 year
+    setDuration(
+      <div className="container">
+        <h1 className="h">Population Graph</h1>
+        <div className="section">
+          {clicked === 1 ? (
+            <Line
+              text="Last 10 years Data"
+              categories={lastTenyear}
+              datavalue={lastTenPopulation}
+            />
+          ) : (
+            <Line
+              text="All years Data"
+              categories={allyear}
+              datavalue={allpopulation}
+            />
+          )}
+        </div>
+      </div>
+    );
   };
 
   //let cd = ["navya", "bhatia", "anjali", "sara"];
   // console.log({ search });
   // console.log({ countries });
+
   const handleDetails = async (selectcountry) => {
+    //  console.log(selectcountry); //el country selected data
     let allpopulationValue = [];
     let allyears = [];
     let tenPopulationValue = []; // filter it for last 10 years
     let tenYears = [];
+    setloader(true);
+
     const res = await axios.get(
-      `https://countriesnow.space/api/v0.1/countries/population?query=${selectcountry}`
+      `https://countriesnow.space/api/v0.1/countries/population`
     );
+
+    if (res.data.data) setloader(false);
 
     const weather = res.data.data;
     console.log(weather);
@@ -63,11 +105,16 @@ const Country = () => {
     } //this for loop for storing year and value data seperately for creating graph
     console.log(allpopulationValue);
     console.log(allyears);
+    tenPopulationValue = allpopulationValue.slice(-10); //filtering out last 10 year data from all
+    tenYears = allyears.slice(-10);
+    setLastTenyear(tenYears);
+    setLastTenPopulation(tenPopulationValue);
     setAllPopulation(allpopulationValue);
     setAllyear(allyears);
+
     setDetails(
       <Container>
-        <h1>Welcome to {selectcountry.name}</h1>
+        <h1>{selectcountry.name}</h1>
 
         <h3>{selectcountry.currency}</h3>
 
@@ -79,8 +126,9 @@ const Country = () => {
           width="320px"
           alt="country flag"
         />
-        <h4> acessing from population api {result.country}</h4>
+        {/* <h4> acessing from population api {result.country}</h4>
         <h4> acessing from population api {result.code}</h4>
+        */}
       </Container>
     );
   };
@@ -91,7 +139,8 @@ const Country = () => {
         <div className="column">
           <Box
             sx={{
-              marginLeft: 15,
+              marginLeft: 42,
+
               width: 200,
               display: "flex",
               flexDirection: "row",
@@ -123,13 +172,12 @@ const Country = () => {
         <div className="column">
           <Box
             sx={{
-              marginLeft: 15, //box margin fro left
+              marginLeft: 80, //box margin fro left
               width: 200, //box width hai yeh
               display: "flex",
               flexDirection: "row-reverse",
               flexWrap: "nowrap",
               alignItems: "center",
-              float: "left",
             }}
           >
             <FormControl sx={{ flexGrow: 1 }}>
@@ -142,8 +190,10 @@ const Country = () => {
           </Box>
         </div>
       </div>
+      {loader && <h1>loading..</h1>}
 
-      <div>{details}</div>
+      {!loader && <div>{details}</div>}
+      <div>{duration}</div>
     </Container>
   );
 };
@@ -151,10 +201,6 @@ const Country = () => {
 export default Country;
 /*
 
-    weather
-      .find((country) => country === "Bulgaria")
-      .map((x) => (
-        <li>{x.country}</li>
-      ))
 
+ ?query=${selectcountry} (of no use)
 */

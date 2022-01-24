@@ -1,6 +1,14 @@
-.row {
-  display: flex;
+.container {
+  max-width: 5000px;
+  margin: 0 auto;
+  text-align: center;
 }
-.column {
-  flex: 50%;
+
+.section {
+  max-width: 5000px;
+  padding: 50px 0;
+}
+
+.h {
+  border-bottom: 1px solid #dedede;
 }
