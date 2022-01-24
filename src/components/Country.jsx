@@ -116,8 +116,8 @@ const Country = () => {
     setDetails(
       <Container align="center">
         <h1>{selectcountry.name}</h1>
-        <div class="row ">
-          <div class="col md-3 justify-content-end">
+        <div className="row ">
+          <div className="col md-3 justify-content-end">
             <br></br>
             <br></br>
             <h3 style={{ alignItem: "center", textAlign: "right" }}>
@@ -128,12 +128,11 @@ const Country = () => {
               {selectcountry.unicodeFlag}
             </h3>
           </div>
-          <div class="col align-left">
+          <div className="col align-left">
             <img
               align="left"
               top="-200px"
               src={selectcountry.flag}
-              alignItems="left"
               height="250px"
               width="250px"
               alt="country flag"
@@ -166,7 +165,12 @@ const Country = () => {
           >
             <FormControl sx={{ flexGrow: 1 }}>
               <InputLabel id="label">Country</InputLabel>
-              <Select label="Country" onChange={handleSearch} value={search}>
+              <Select
+                label="Country"
+                onChange={handleSearch}
+                value={search}
+                defaultValue=""
+              >
                 {countries.map((selectcountry, index) => (
                   <MenuItem
                     key={index}
@@ -198,9 +202,17 @@ const Country = () => {
           >
             <FormControl sx={{ flexGrow: 1 }}>
               <InputLabel id="label2">Duration</InputLabel>
-              <Select label="Duration" onChange={handleDuration}>
-                <MenuItem value={1}>Last 10 years Data</MenuItem>
-                <MenuItem value={2}>All years Data</MenuItem>
+              <Select
+                label="Duration"
+                onChange={handleDuration}
+                defaultValue=""
+              >
+                <MenuItem key={1} value={1}>
+                  Last 10 years Data
+                </MenuItem>
+                <MenuItem key={2} value={2}>
+                  All years Data
+                </MenuItem>
               </Select>
             </FormControl>
           </Box>
