@@ -11,8 +11,10 @@ import "@progress/kendo-theme-material/dist/all.css";
 import "hammerjs";
 import "./Country.css";
 import Line from "./charts/Line";
+import { Link, useNavigate } from "react-router-dom";
 
 const Country = () => {
+  const navigate = useNavigate();
   const [countries, setCountries] = useState([]);
   const [search, setSearch] = useState("");
   const [details, setDetails] = useState([]);
@@ -114,115 +116,128 @@ const Country = () => {
     setAllyear(allyears);
 
     setDetails(
-      <Container align="center">
-        <h1>{selectcountry.name}</h1>
-        <div className="row ">
-          <div className="col md-3 justify-content-end">
-            <br></br>
-            <br></br>
-            <h3 style={{ alignItem: "center", textAlign: "right" }}>
-              {selectcountry.currency}
-            </h3>
-            <br></br>
-            <h3 style={{ alignItem: "center", textAlign: "right" }}>
-              {selectcountry.unicodeFlag}
-            </h3>
-          </div>
-          <div className="col align-left">
-            <img
-              align="left"
-              top="-200px"
-              src={selectcountry.flag}
-              height="250px"
-              width="250px"
-              alt="country flag"
-              float="left"
-            />
-          </div>
-        </div>
+      <>
+        <Container align="center">
+          <br></br>
+          <br></br>
 
-        {/* <h4> acessing from population api {result.country}</h4>
+          <h1>{selectcountry.name}</h1>
+          <div className="row ">
+            <div className="col md-3 justify-content-end">
+              <br></br>
+              <br></br>
+              <h3 style={{ alignItem: "center", textAlign: "right" }}>
+                Currency: {selectcountry.currency}
+              </h3>
+              <br></br>
+              <h3 style={{ alignItem: "center", textAlign: "right" }}>
+                Unicode Flag:{selectcountry.unicodeFlag}
+              </h3>
+            </div>
+            <div className="col align-left">
+              <img
+                align="left"
+                top="-200px"
+                src={selectcountry.flag}
+                height="250px"
+                width="250px"
+                alt="country flag"
+                float="left"
+              />
+            </div>
+          </div>
+          {/* <h4> acessing from population api {result.country}</h4>
         <h4> acessing from population api {result.code}</h4>
         */}
-      </Container>
+        </Container>
+      </>
     );
   };
 
   return (
-    <Container fluid>
-      <div className="row">
-        <div className="column">
-          <Box
-            sx={{
-              marginLeft: 42,
-              width: 200,
-              display: "flex",
-              flexDirection: "row",
-              flexWrap: "nowrap",
-              alignItems: "center",
-              float: "left",
-            }}
-          >
-            <FormControl sx={{ flexGrow: 1 }}>
-              <InputLabel id="label">Country</InputLabel>
-              <Select
-                label="Country"
-                onChange={handleSearch}
-                value={search}
-                defaultValue=""
-              >
-                {countries.map((selectcountry, index) => (
-                  <MenuItem
-                    key={index}
-                    idx={index}
-                    value={selectcountry.name}
-                    onClick={() => handleDetails(selectcountry)}
-                  >
-                    {selectcountry.name}
+    <>
+      {localStorage.getItem("loggedin")
+        ? console.log("entererd country")
+        : navigate("/login")}
+      <Link to="/logout" style={{ textDecoration: "none" }}>
+        Logout Here !
+      </Link>
+      <br></br>
+      <Container fluid>
+        <div className="row">
+          <div className="column">
+            <Box
+              sx={{
+                marginLeft: 42,
+                width: 200,
+                display: "flex",
+                flexDirection: "row",
+                flexWrap: "nowrap",
+                alignItems: "center",
+                float: "left",
+              }}
+            >
+              <FormControl sx={{ flexGrow: 1 }}>
+                <InputLabel id="label">Country</InputLabel>
+                <Select
+                  label="Country"
+                  onChange={handleSearch}
+                  value={search}
+                  defaultValue=""
+                >
+                  {countries.map((selectcountry, index) => (
+                    <MenuItem
+                      key={index}
+                      idx={index}
+                      value={selectcountry.name}
+                      onClick={() => handleDetails(selectcountry)}
+                    >
+                      {selectcountry.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          </div>
+          {
+            //now for duration}
+          }
+          <div className="column">
+            <Box
+              sx={{
+                marginLeft: 72, //box margin fro left
+                marginTop: -7,
+                width: 200, //box width hai yeh
+                display: "flex",
+                flexDirection: "row-reverse",
+                flexWrap: "nowrap",
+                alignItems: "center",
+              }}
+            >
+              <FormControl sx={{ flexGrow: 1 }}>
+                <InputLabel id="label2">Duration</InputLabel>
+                <Select
+                  label="Duration"
+                  onChange={handleDuration}
+                  defaultValue=""
+                >
+                  <MenuItem key={1} value={1}>
+                    Last 10 years Data
                   </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Box>
+                  <MenuItem key={2} value={2}>
+                    All years Data
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+          </div>
         </div>
-        {
-          //now for duration}
-        }
-        <div className="column">
-          <Box
-            sx={{
-              marginLeft: 72, //box margin fro left
-              marginTop: -7,
-              width: 200, //box width hai yeh
-              display: "flex",
-              flexDirection: "row-reverse",
-              flexWrap: "nowrap",
-              alignItems: "center",
-            }}
-          >
-            <FormControl sx={{ flexGrow: 1 }}>
-              <InputLabel id="label2">Duration</InputLabel>
-              <Select
-                label="Duration"
-                onChange={handleDuration}
-                defaultValue=""
-              >
-                <MenuItem key={1} value={1}>
-                  Last 10 years Data
-                </MenuItem>
-                <MenuItem key={2} value={2}>
-                  All years Data
-                </MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-        </div>
-      </div>
-      {loader && <Spinner animation="border" role="status" />}
+        {loader && <Spinner animation="border" role="status" />}
 
-      {!loader && <div>{details}</div>}
-      <div>{duration}</div>
-    </Container>
+        {!loader && <div>{details}</div>}
+        <div>{duration}</div>
+      </Container>
+    </>
   );
 };
 
