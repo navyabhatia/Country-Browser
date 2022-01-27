@@ -18,7 +18,6 @@ function App() {
             <strong>WELCOME</strong>
           </h1>
           <br />
-          <br />
         </header>
         <BrowserRouter>
           <Routes>

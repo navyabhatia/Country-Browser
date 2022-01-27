@@ -12,6 +12,14 @@ import "hammerjs";
 import "./Country.css";
 import Line from "./charts/Line";
 import { Link, useNavigate } from "react-router-dom";
+import {
+  TextField,
+  Button,
+  Typography,
+  Card,
+  CardContent,
+  Tooltip,
+} from "@mui/material";
 
 const Country = () => {
   const navigate = useNavigate();
@@ -120,35 +128,45 @@ const Country = () => {
         <Container align="center">
           <br></br>
           <br></br>
-
-          <h1>{selectcountry.name}</h1>
-          <div className="row ">
-            <div className="col md-3 justify-content-end">
-              <br></br>
-              <br></br>
-              <h3 style={{ alignItem: "center", textAlign: "right" }}>
-                Currency: {selectcountry.currency}
-              </h3>
-              <br></br>
-              <h3 style={{ alignItem: "center", textAlign: "right" }}>
-                Unicode Flag:{selectcountry.unicodeFlag}
-              </h3>
-            </div>
-            <div className="col align-left">
-              <img
-                align="left"
-                top="-200px"
-                src={selectcountry.flag}
-                height="250px"
-                width="250px"
-                alt="country flag"
-                float="left"
-              />
-            </div>
-          </div>
-          {/* <h4> acessing from population api {result.country}</h4>
+          <Card
+            sx={{
+              maxWidth: 500,
+              marginX: "auto",
+              boxShadow: 4,
+              bgcolor: "#F5F5F5",
+            }}
+          >
+            <CardContent>
+              <h1>{selectcountry.name}</h1>
+              <div className="row ">
+                <div className="col md-3 justify-content-end">
+                  <br></br>
+                  <br></br>
+                  <h3 style={{ alignItem: "center", textAlign: "right" }}>
+                    Currency: {selectcountry.currency}
+                  </h3>
+                  <br></br>
+                  <h3 style={{ alignItem: "center", textAlign: "right" }}>
+                    Unicode Flag:{selectcountry.unicodeFlag}
+                  </h3>
+                </div>
+                <div className="col align-left">
+                  <img
+                    align="left"
+                    top="-200px"
+                    src={selectcountry.flag}
+                    height="250px"
+                    width="250px"
+                    alt="country flag"
+                    float="left"
+                  />
+                </div>
+              </div>
+              {/* <h4> acessing from population api {result.country}</h4>
         <h4> acessing from population api {result.code}</h4>
         */}
+            </CardContent>
+          </Card>
         </Container>
       </>
     );
@@ -156,12 +174,18 @@ const Country = () => {
 
   return (
     <>
-      {localStorage.getItem("loggedin")
+      {
+        /*localStorage.getItem("loggedin")
         ? console.log("entererd country")
-        : navigate("/login")}
+        : navigate("/login")*/
+        sessionStorage.getItem("auth-token")
+          ? console.log("entered country")
+          : navigate("/login")
+      }
       <Link to="/logout" style={{ textDecoration: "none" }}>
         Logout Here !
       </Link>
+      <br></br>
       <br></br>
       <Container fluid>
         <div className="row">
@@ -245,5 +269,4 @@ export default Country;
 /*
 
 
- ?query=${selectcountry} (of no use)
 */

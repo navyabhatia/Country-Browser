@@ -5,9 +5,14 @@ const Logout = () => {
   return (
     <div>
       <h1>Logged out sucessfully </h1>
-      {localStorage.getItem("loggedin")
+      {
+        /*localStorage.getItem("loggedin")
         ? localStorage.removeItem("loggedin")
-        : alert("error")}
+        : alert("error")*/
+        sessionStorage.getItem("auth-token")
+          ? sessionStorage.removeItem("auth-token")
+          : alert("error")
+      }
 
       <Link to="/login" style={{ textDecoration: "none" }}>
         Login again to browse countries
@@ -17,26 +22,3 @@ const Logout = () => {
 };
 
 export default Logout;
-/*
-<div>
-      <h1>Logged out sucessfully </h1>
-      {localStorage.getItem("loggedin")
-        ? localStorage.setItem("loggedin", false)
-        : alert("error")}
-      <Link to="/login" style={{ textDecoration: "none" }}>
-        Login again to browse countries
-      </Link>
-    </div>
-
-
-
-    <div>
-      <h1>Logged out sucessfully </h1>
-      {localStorage.getItem("loggedin")
-        ? localStorage.removeItem("loggedin")
-        : alert("error")}
-      <Link to="/login" style={{ textDecoration: "none" }}>
-        Login again to browse countries
-      </Link>
-    </div>
-*/
